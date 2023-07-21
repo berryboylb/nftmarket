@@ -1,6 +1,8 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-ethers");
-require("dotenv").config({ path: 'config.env' });
+require("dotenv").config({
+  path: process.env.NODE_ENV === "production" ? "" : "config.env",
+});
 // import { Network, Alchemy } from "alchemy-sdk";
 // require('@nomiclabs/hardhat-waffle');
 const fs = require("fs");
