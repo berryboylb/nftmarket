@@ -1,0 +1,50 @@
+require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-ethers");
+require("dotenv").config();
+// import { Network, Alchemy } from "alchemy-sdk";
+// require('@nomiclabs/hardhat-waffle');
+const fs = require("fs");
+// const { API_URL, PRIVATE_KEY } = process.env;
+
+// const settings = {
+//   apiKey: "Hfef5ywXzB65RxQDpFaYD_BaEIWW7-NC",
+//   network: Network.ETH_SEPOLIA,
+//   gasPrice: 3000000000,
+// };
+
+// const alchemy = new Alchemy(settings)
+
+// Contract address = 0x564DE9c0a08BC5A3569CdAAFC82069Bd044872e0
+
+task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
+  const accounts = await hre.ethers.getSigners();
+
+  for (const account of accounts) {
+    console.log(account.address);
+  }
+});
+
+/** @type import('hardhat/config').HardhatUserConfig */
+module.exports = {
+  defaultNetwork: "sepolia",
+  networks: {
+    hardhat: {
+      chainId: 1337,
+    },
+    sepolia: {
+      url: "https://eth-sepolia.g.alchemy.com/v2/Hfef5ywXzB65RxQDpFaYD_BaEIWW7-NC",
+      accounts: [
+        "5c9809ccc49d0853e2e46fdb4e06a80b9b5007aa00edd7ecd227ca4578ffe19a",
+      ],
+    },
+  },
+  solidity: {
+    version: "0.8.17",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
+};
