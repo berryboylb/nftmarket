@@ -1,6 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-ethers");
-require("dotenv").config();
+require("dotenv").config({ path: 'config.env' });
 // import { Network, Alchemy } from "alchemy-sdk";
 // require('@nomiclabs/hardhat-waffle');
 const fs = require("fs");
@@ -32,10 +32,12 @@ module.exports = {
       chainId: 1337,
     },
     sepolia: {
-      url: "https://eth-sepolia.g.alchemy.com/v2/Hfef5ywXzB65RxQDpFaYD_BaEIWW7-NC",
-      accounts: [
-        "5c9809ccc49d0853e2e46fdb4e06a80b9b5007aa00edd7ecd227ca4578ffe19a",
-      ],
+      url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.SEPOOLIA_KEY}`,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+    goerli: {
+      url: process.env.GEORLI_API_URL,
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
   },
   solidity: {

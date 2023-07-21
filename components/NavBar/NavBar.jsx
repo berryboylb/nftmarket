@@ -206,7 +206,13 @@ const NavBar = () => {
           <div className={Style.navbar_container_right_prfile_box}>
             <div className={Style.navbar_container_right_profile}>
               <Image
-                src={user ? user?.profilePic : images.hero}
+                src={
+                  user
+                    ? user.profilePic
+                      ? user.profilePic
+                      : images.hero
+                    : images.hero
+                }
                 alt="Profile"
                 width={40}
                 height={40}
@@ -214,7 +220,9 @@ const NavBar = () => {
                 className={Style.navbar_container_right_profile}
               />
 
-              {profile && <Profile currentAccount={currentAccount} />}
+              {profile && (
+                <Profile currentAccount={currentAccount} user={user} />
+              )}
             </div>
           </div>
 

@@ -12,40 +12,46 @@ import Style from "./Profile.module.css";
 import images from "../../../img";
 import { NFTMarketplaceContext } from "../../../Context/NFTMarketplaceContext";
 
-const Profile = ({ currentAccount }) => {
-  const [user, setUser] = useState();
+const Profile = ({ currentAccount, user }) => {
+  // const [user, setUser] = useState();
   const { owner } = useContext(NFTMarketplaceContext);
-  const fetchUser = async (currentAccount) => {
-    try {
-      const res = await axios.get(`/api/user?currentAccount=${currentAccount}`);
-      if (res.status == 200) {
-        toast.success(res?.data?.message);
-        return res?.data?.data;
-      }
-    } catch (error) {
-      console.log(error);
-      error?.response?.data?.message &&
-        toast.error(error?.response?.data?.message);
-      toast.error(`Error occured submitting form...${error?.message}`);
-    }
-  };
+  // const fetchUser = async (currentAccount) => {
+  //   try {
+  //     const res = await axios.get(`/api/user?currentAccount=${currentAccount}`);
+  //     if (res.status == 200) {
+  //       toast.success(res?.data?.message);
+  //       return res?.data?.data;
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //     error?.response?.data?.message &&
+  //       toast.error(error?.response?.data?.message);
+  //     toast.error(`Error occured submitting form...${error?.message}`);
+  //   }
+  // };
 
-  useEffect(() => {
-    const init = async () => {
-      if (currentAccount) {
-        const user = await fetchUser(currentAccount);
-        console.log(user);
-        if (user) setUser(user);
-      }
-    };
-    init();
-  }, [currentAccount]);
+  // useEffect(() => {
+  //   const init = async () => {
+  //     if (currentAccount) {
+  //       const user = await fetchUser(currentAccount);
+  //       console.log(user);
+  //       if (user) setUser(user);
+  //     }
+  //   };
+  //   init();
+  // }, [currentAccount]);
 
   return (
     <div className={Style.profile}>
       <div className={Style.profile_account}>
         <Image
-          src={user ? user?.profilePic : images.hero}
+          src={
+            user
+              ? user.profilePic
+                ? user.profilePic
+                : images.hero
+              : images.hero
+          }
           alt="User Profile"
           width={50}
           height={50}
@@ -67,12 +73,12 @@ const Profile = ({ currentAccount }) => {
             </p>
           </div>
 
-          <div className={Style.profile_menu_one_item}>
+          {/* <div className={Style.profile_menu_one_item}>
             <FaRegImage />
             <p>
               <Link href={{ pathname: "/author" }}>My Items</Link>
             </p>
-          </div>
+          </div> */}
 
           <div className={Style.profile_menu_one_item}>
             <FaUserEdit />
@@ -83,7 +89,7 @@ const Profile = ({ currentAccount }) => {
 
           {owner.toLowerCase() === currentAccount.toLowerCase() && (
             <div className={Style.profile_menu_one_item}>
-              <FaUserEdit />
+              <FaRegImage />
               <p>
                 <Link href={{ pathname: "/withdraw" }}>Withdraw</Link>
               </p>

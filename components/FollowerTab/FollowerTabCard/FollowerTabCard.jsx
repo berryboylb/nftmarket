@@ -30,8 +30,10 @@ const FollowerTabCard = ({ i, el }) => {
         <div className={Style.FollowerTabCard_box_img}>
           <Image
             className={Style.FollowerTabCard_box_img_img}
-            src={el.background || images.creatorbackground1}
+            src={el.background || "https://via.placeholder.com/500x500"}
             alt="Profile background"
+            width={3000}
+            height={2000}
           />
         </div>
 
@@ -50,7 +52,7 @@ const FollowerTabCard = ({ i, el }) => {
             <h4>
               {el.seller.slice(0, 9)} {""} {""}
               <span>
-                <MdVerified/>
+                <MdVerified />
               </span>
             </h4>
             <p>{el.total || 0} ETH</p>
@@ -59,7 +61,10 @@ const FollowerTabCard = ({ i, el }) => {
           <div className={Style.FollowerTabCard_box_info_following}>
             {following ? (
               <a onClick={() => followMe()}>
-                Follow {""} <span><TiTick/></span>
+                Follow {""}{" "}
+                <span>
+                  <TiTick />
+                </span>
               </a>
             ) : (
               <a onClick={() => followMe()}>Following</a>

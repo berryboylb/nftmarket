@@ -34,8 +34,8 @@ const author = () => {
             }
         } catch (error) {
             console.log(error);
-            error?.response?.data?.message && toast.error(error?.response?.data?.message)
-            toast.error(`Error occured submitting form...${error?.message}`)
+            // error?.response?.data?.message && toast.error(error?.response?.data?.message)
+            // toast.error(`Error occured submitting form...${error?.message}`)
         }
     }
 

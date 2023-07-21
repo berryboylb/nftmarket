@@ -27,14 +27,14 @@ import { getTopCreators } from '../TopCreator/TopCreator';
 import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext';
 
 const Home = () => {
-  const { checkIfWalletIsConnected, nfts } = useContext(NFTMarketplaceContext);
+  const { checkIfWalletIsConnected } = useContext(NFTMarketplaceContext);
 
   useEffect(()=> {
     checkIfWalletIsConnected();
   }, []);
   
   const { fetchNFTs, filteredArr } = useContext(NFTMarketplaceContext);
-  // const [nfts, setNfts] = useState([]);
+  const [nfts, setNfts] = useState([]);
   const [nftsCopy, setNftscopy] = useState([]);
   const [loading, setLoading] = useState(false);
   const changeLoader = () => setLoading(hartman => !hartman);
@@ -42,13 +42,13 @@ const Home = () => {
   // CREATOR LIST 
   const creators = getTopCreators(nfts)
 
-  // useEffect(() => {
-  //   const init = async () => {
-  //     const myNfts = await fetchNFTs();
-  //     setNfts(myNfts)
-  //   }
-  //   init();
-  // }, [])
+  useEffect(() => {
+    const init = async () => {
+      const myNfts = await fetchNFTs();
+      setNfts(myNfts)
+    }
+    init();
+  }, [])
 
   // useEffect(() => {
   //     tawkToScript;
@@ -64,10 +64,10 @@ const Home = () => {
         heading='Audio Collection' 
         paragraph='Tune into the world of extraordinary audio collections' />
       <AudioLive /> */}
-      {creators.length == 0 ? (
-        <div className={Style.connect}>Connect wallet to see creators</div>
-      ) : (
+      {creators && creators.length > 0 ? (
         <FollowerTab TopCreator={creators} />
+      ) : (
+        <div className={Style.connect}>Connect wallet to see creators</div>
       )}
       <Slider />
       {/* <Collection /> */}

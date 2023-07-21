@@ -35,8 +35,8 @@ const AuthorProfileCard = ({ currentAccount }) => {
       }
     } catch (error) {
       console.log(error);
-      error?.response?.data?.message && toast.error(error?.response?.data?.message)
-      toast.error(`Error occured submitting form...${error?.message}`)
+      // error?.response?.data?.message && toast.error(error?.response?.data?.message)
+      // toast.error(`Error occured submitting form...${error?.message}`)
     }
   }
 
@@ -71,7 +71,6 @@ const AuthorProfileCard = ({ currentAccount }) => {
     const init = async () => {
       if (currentAccount) {
         const user = await fetchUser(currentAccount);
-        console.log(user)
         if (user) setUser(user)
       }
     }
@@ -79,111 +78,122 @@ const AuthorProfileCard = ({ currentAccount }) => {
   }, [currentAccount])
 
   return (
-    user &&
-    <div className={Style.AuthorProfileCard}>
-      <div className={Style.AuthorProfileCard_box}>
-        <div className={Style.AuthorProfileCard_box_img}>
-          <Image 
-            src={user?.profilePic}
-            className={Style.AuthorProfileCard_box_img_img}
-            alt="NFT IMAGES"
-            width={220}
-            height={220}
-          />
-        </div>
-
-        <div className={Style.AuthorProfileCard_box_info}>
-          <h2>
-            {user?.firstName} {user?.lastName}
-            <span>
-              <MdVerified />
-            </span>{""}
-          </h2>
-
-          <div className={Style.AuthorProfileCard_box_info_address}>
-            <input type="text" defaultValue={currentAccount} id='myInput' />
-            <FiCopy
-              className={Style.AuthorProfileCard_box_info_address_icon}
-              onClick={()=> copyAddress()}
+    user && (
+      <div className={Style.AuthorProfileCard}>
+        <div className={Style.AuthorProfileCard_box}>
+          <div className={Style.AuthorProfileCard_box_img}>
+            <Image
+              src={
+                user
+                  ? user.profilePic
+                    ? user.profilePic
+                    : images.hero
+                  : images.hero
+              }
+              className={Style.AuthorProfileCard_box_img_img}
+              alt="NFT IMAGES"
+              width={220}
+              height={220}
             />
           </div>
 
-          <p>
-            {user?.description}
-          </p>
+          <div className={Style.AuthorProfileCard_box_info}>
+            <h2>
+              {user?.firstName} <br/> {user?.lastName}
+              <span>
+                <MdVerified />
+              </span>
+              {""}
+            </h2>
 
-          <div className={Style.AuthorProfileCard_box_info_social}>
-            <a href={user?.facebookUrl}>
-              <TiSocialFacebook />
-            </a>
-            <a href={user?.instagramUrl}>
-              <TiSocialInstagram />
-            </a>
-            <a href={user?.linkedinUrl}>
-              <TiSocialLinkedin />
-            </a>
-            <a href={user?.youtubeUrl}>
-              <TiSocialYoutube />
-            </a>
+            <div className={Style.AuthorProfileCard_box_info_address}>
+              <input type="text" defaultValue={currentAccount} id="myInput" />
+              <FiCopy
+                className={Style.AuthorProfileCard_box_info_address_icon}
+                onClick={() => copyAddress()}
+              />
+            </div>
+
+            <p>{user?.description}</p>
+
+            <div className={Style.AuthorProfileCard_box_info_social}>
+              <a href={user?.facebookUrl}>
+                <TiSocialFacebook />
+              </a>
+              <a href={user?.instagramUrl}>
+                <TiSocialInstagram />
+              </a>
+              <a href={user?.linkedinUrl}>
+                <TiSocialLinkedin />
+              </a>
+              <a href={user?.youtubeUrl}>
+                <TiSocialYoutube />
+              </a>
+            </div>
+          </div>
+
+          <div className={Style.AuthorProfileCard_box_share}>
+            <Button btnText="Follow" handleClick={() => {}} />
+            <MdCloudUpload
+              onClick={() => openShare()}
+              className={Style.AuthorProfileCard_box_share_icon}
+            />
+
+            {share && (
+              <div className={Style.AuthorProfileCard_box_share_upload}>
+                <p>
+                  <span>
+                    <TiSocialFacebook />
+                  </span>
+                  {""}
+                  {""}
+                  FaceBook
+                </p>
+                <p>
+                  <span>
+                    <TiSocialInstagram />
+                  </span>
+                  {""}
+                  {""}
+                  Instagram
+                </p>
+                <p>
+                  <span>
+                    <TiSocialLinkedin />
+                  </span>
+                  {""}
+                  {""}
+                  Linkdin
+                </p>
+                <p>
+                  <span>
+                    <TiSocialYoutube />
+                  </span>
+                  {""}
+                  {""}
+                  YouTube
+                </p>
+              </div>
+            )}
+
+            <BsThreeDots
+              onClick={() => openReport()}
+              className={Style.AuthorProfileCard_box_share_icon}
+            />
+
+            {report && (
+              <p className={Style.AuthorProfileCard_box_share_report}>
+                <span>
+                  <MdOutlineReportProblem />
+                </span>
+                {""}
+                Report Abuse
+              </p>
+            )}
           </div>
         </div>
-
-        <div className={Style.AuthorProfileCard_box_share}>
-          <Button btnText="Follow" handleClick={() => {}}/>
-          <MdCloudUpload 
-            onClick={()=>openShare()}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
-
-          {share && (
-            <div className={Style.AuthorProfileCard_box_share_upload}>
-              <p>
-                <span>
-                  <TiSocialFacebook />
-                </span>{""}
-                {""}
-                FaceBook
-              </p>
-              <p>
-                <span>
-                  <TiSocialInstagram />
-                </span>{""}
-                {""}
-                Instagram
-              </p>
-              <p>
-                <span>
-                  <TiSocialLinkedin />
-                </span>{""}
-                {""}
-                Linkdin
-              </p>
-              <p>
-                <span>
-                  <TiSocialYoutube />
-                </span>{""}
-                {""}
-                YouTube
-              </p>
-            </div>
-          )}
-
-          <BsThreeDots 
-            onClick={()=>openReport()}
-            className={Style.AuthorProfileCard_box_share_icon}
-          />
-
-          {report && (
-            <p className={Style.AuthorProfileCard_box_share_report}>
-              <span>
-                <MdOutlineReportProblem />
-              </span>{""}
-              Report Abuse
-            </p>
-          )}
-        </div>
       </div>
-    </div>
+    )
   );
 };
 
