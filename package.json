@@ -50,6 +50,7 @@
     "@nomicfoundation/hardhat-network-helpers": "^1.0.8",
     "@nomicfoundation/hardhat-toolbox": "^2.0.0",
     "@types/react": "^18.0.38",
-    "hardhat": "^2.12.7"
+    "hardhat": "^2.12.7",
+    "typescript": "^5.1.6"
   }
 }
