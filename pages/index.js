@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState } from "react";
 
 // INTERNAL IMPORT
 import Style from "../styles/index.module.css";
@@ -20,40 +20,47 @@ import {
   Loader,
 } from "../components/componentsindex";
 
-import { getTopCreators } from '../TopCreator/TopCreator';
+import { getTopCreators } from "../TopCreator/TopCreator";
 // import tawkToScript from "../tawkToScript"
 
 // IMPORTING CONTRACT DATA
-import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext';
+import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 
 const Home = () => {
   const { checkIfWalletIsConnected } = useContext(NFTMarketplaceContext);
 
-  useEffect(()=> {
+  useEffect(() => {
     checkIfWalletIsConnected();
   }, []);
-  
+
   const { fetchNFTs, filteredArr } = useContext(NFTMarketplaceContext);
   const [nfts, setNfts] = useState([]);
+  const [creators, setCreators] = useState([]);
   const [nftsCopy, setNftscopy] = useState([]);
   const [loading, setLoading] = useState(false);
-  const changeLoader = () => setLoading(hartman => !hartman);
+  const changeLoader = () => setLoading((hartman) => !hartman);
 
-  // CREATOR LIST 
-  const creators = getTopCreators(nfts)
+  // CREATOR LIST
+  // const creators = nfts && getTopCreators(nfts);
 
   useEffect(() => {
     const init = async () => {
       const myNfts = await fetchNFTs();
-      setNfts(myNfts)
-    }
+      setNfts(myNfts);
+    };
     init();
-  }, [])
+  }, []);
+
+  useEffect(() => {
+    const init = async () => {
+      if (nfts && nfts.length > 0) setCreators(getTopCreators(nfts));
+    };
+    init();
+  }, [nfts]);
 
   // useEffect(() => {
   //     tawkToScript;
   // }, []);
-
 
   return (
     <div className={Style.homepage}>
@@ -77,10 +84,10 @@ const Home = () => {
       />
       <Filter changeLoader={changeLoader} />
 
-      {nfts.length == 0 ? (
-        <div className={Style.connect}>Connect wallet to see NFTs</div>
-      ) : (
+      {nfts && nfts.length > 0 ? (
         <NFTCard NFTdata={filteredArr} />
+      ) : (
+        <div className={Style.connect}>Connect wallet to see NFTs</div>
       )}
 
       <Title
@@ -94,6 +101,6 @@ const Home = () => {
       {/* <Video /> */}
     </div>
   );
-}
+};
 
 export default Home;

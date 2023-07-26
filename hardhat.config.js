@@ -1,8 +1,6 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("@nomiclabs/hardhat-ethers");
-require("dotenv").config({
-  path: process.env.NODE_ENV === "production" ? "" : "config.env",
-});
+require('dotenv').config({ path: __dirname + '/.env.local' });
 // import { Network, Alchemy } from "alchemy-sdk";
 // require('@nomiclabs/hardhat-waffle');
 const fs = require("fs");
@@ -17,7 +15,7 @@ const fs = require("fs");
 // const alchemy = new Alchemy(settings)
 
 // Contract address = 0x564DE9c0a08BC5A3569CdAAFC82069Bd044872e0
-
+// console.log("process", process.env)
 task("accounts", "Prints the list of accounts", async (taskArgs, hre) => {
   const accounts = await hre.ethers.getSigners();
 
@@ -35,7 +33,7 @@ module.exports = {
     },
     sepolia: {
       url: `https://eth-sepolia.g.alchemy.com/v2/${process.env.SEPOOLIA_KEY}`,
-      accounts: [process.env.PRIVATE_KEY],
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
     goerli: {
       url: process.env.GEORLI_API_URL,

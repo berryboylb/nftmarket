@@ -11,7 +11,6 @@ import FollowerTabCard from "./FollowerTabCard/FollowerTabCard";
 import images from "../../img";
 
 const FollowerTab = ({ TopCreator }) => {
-  console.log("TopCreator", TopCreator);
   const CardArray = [
     {
       background: images.creatorbackground1,

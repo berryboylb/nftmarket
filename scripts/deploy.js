@@ -1,6 +1,5 @@
-
 const hre = require("hardhat");
-const {ethers} = require("hardhat");
+const { ethers } = require("hardhat");
 const fs = require("fs");
 
 async function main() {
@@ -13,19 +12,19 @@ async function main() {
 
   const data = {
     address: nFTMarketplace.address,
-    abi: JSON.parse(nFTMarketplace.interface.format('json')),
-  }
+    abi: JSON.parse(nFTMarketplace.interface.format("json")),
+  };
 
-  fs.writeFileSync('./Context/NFTMarketplace.json', JSON.stringify(data))
+  fs.writeFileSync("./Context/NFTMarketplace.json", JSON.stringify(data));
 
- //   console.log( 
- //     `deployed contract Address ${nFTMarketplace.address}`
- //   );
+  //   console.log(
+  //     `deployed contract Address ${nFTMarketplace.address}`
+  //   );
 }
 
 main()
-.then(()=> process.exit(0))
-.catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });

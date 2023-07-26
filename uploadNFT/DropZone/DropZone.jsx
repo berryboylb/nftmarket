@@ -21,7 +21,7 @@ const DropZone = ({
   uploadToIpfs,
   setImage,
 }) => {
-  const [fileUrl, setFileUrl] = useState(null);
+  const [fileUrl, setFileUrl] = useState('');
   const [isUploading, setIsUploading] = useState(false);
   const onDrop = useCallback(async (acceptedFile) => {
     setIsUploading(true);
@@ -36,7 +36,9 @@ const DropZone = ({
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    accept: "image/*",
+    accept: {
+      "image/*": [".jpeg", ".jpg", ".png"],
+    },
     maxSize: 5000000,
   });
 
