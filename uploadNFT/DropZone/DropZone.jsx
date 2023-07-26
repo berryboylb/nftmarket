@@ -29,7 +29,6 @@ const DropZone = ({
       if (val) {
         setFileUrl(val);
         setImage(val);
-        console.log(val);
       }
       setIsUploading(false);
     });

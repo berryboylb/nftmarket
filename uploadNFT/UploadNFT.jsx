@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import { MdOutlineHttp, MdOutlineAttachFile } from 'react-icons/md';
-import { FaPercent } from 'react-icons/fa';
-import { AiTwotonePropertySafety } from 'react-icons/ai';
-import { TiTick } from 'react-icons/ti';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import React, { useState } from "react";
+import { MdOutlineHttp, MdOutlineAttachFile } from "react-icons/md";
+import { FaPercent } from "react-icons/fa";
+import { AiTwotonePropertySafety } from "react-icons/ai";
+import { TiTick } from "react-icons/ti";
+import Image from "next/image";
+import { useRouter } from "next/router";
 
-
-// INTERNAL IMPORT 
+// INTERNAL IMPORT
 import Style from "./UploadNFT.module.css";
 import formStyle from "../AccountPage/Form/Form.module.css";
 import images from "../img";
-import { Button } from '../components/componentsindex';
-import { DropZone } from './uploadNFTIndex';
+import { Button } from "../components/componentsindex";
+import { DropZone } from "./uploadNFTIndex";
 import Loader from "../components/Loader";
 
-const categoryArr = ["nfts", "arts", "music", "sports", "phography"]
+const categoryArr = ["nfts", "arts", "music", "sports", "phography"];
 const UploadNFT = ({ uploadToIpfs, createNFT }) => {
   const [loading, setLoading] = useState(false);
-  const [price, setPrice] = useState("")
+  const [price, setPrice] = useState("");
   const [active, setActive] = useState(0);
   const [name, setName] = useState("");
   const [website, setWebsite] = useState("");
@@ -58,8 +57,8 @@ const UploadNFT = ({ uploadToIpfs, createNFT }) => {
     },
   ];
   const uploadImage = (image) => {
-    setImage(image)
-  }
+    setImage(image);
+  };
 
   return (
     <div className={Style.upload}>
@@ -83,7 +82,7 @@ const UploadNFT = ({ uploadToIpfs, createNFT }) => {
           <label htmlFor="nft">Item Name</label>
           <input
             type="text"
-            placeholder='Sosthenes Hart'
+            placeholder="Sosthenes Hart"
             className={formStyle.form_box_input_username}
             onChange={(e) => setName(e.target.value)}
           />
@@ -98,7 +97,7 @@ const UploadNFT = ({ uploadToIpfs, createNFT }) => {
 
             <input
               type="text"
-              placeholder='Website'
+              placeholder="Website"
               onChange={(e) => setWebsite(e.target.value)}
             />
           </div>
@@ -125,10 +124,9 @@ const UploadNFT = ({ uploadToIpfs, createNFT }) => {
             id=""
             cols="30"
             rows="10"
-            placeholder='Something about yourself in few words '
+            placeholder="Something about yourself in few words "
             onChange={(e) => setDescription(e.target.value)}
-          >
-          </textarea>
+          ></textarea>
           <p>
             The description will be included on the item's detail page
             underneath its image. Markdown syntax is supported.
@@ -221,43 +219,56 @@ const UploadNFT = ({ uploadToIpfs, createNFT }) => {
               </div>
               <input
                 type="text"
-                placeholder='Price'
+                placeholder="Price"
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
           </div>
         </div>
 
-        {loading ? <Loader /> :
+        {loading ? (
+          <Loader />
+        ) : (
           <div className={Style.upload_box_btn}>
             <Button
               btnText="Upload"
               handleClick={async () => {
-                setLoading(k => !k)
+                setLoading((k) => !k);
                 await createNFT(
                   name,
                   price,
                   image,
                   description,
                   category,
-                  () => setLoading(k => !k)
+                  (val) => {
+                    if (val) {
+                      setCategory("");
+                      setName("");
+                      setPrice("");
+                      setDescription("");
+                      setWebsite("");
+                      setImage(null);
+                    }
+                    setLoading((k) => !k);
+                  }
                   // website,
                   // royalties,
                   // fileSize,
                   // properties,
-                )
+                );
               }}
               classStyle={Style.upload_box_btn_style}
             />
             <Button
               btnText="Preview"
-              handleClick={() => { }}
+              handleClick={() => {}}
               classStyle={Style.upload_box_btn_style}
             />
-          </div>}
+          </div>
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UploadNFT
+export default UploadNFT;

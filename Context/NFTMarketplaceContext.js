@@ -10,27 +10,19 @@ import { useRouter } from "next/router";
 import { create as ipfsHttpClient } from "ipfs-http-client";
 import axios from "axios";
 import toast from "react-hot-toast";
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config({});
 
-const projectId = "2RNu1fnNjLvAzpnur6s8Z1P3yjR";
-const projectSecretKey = "f2cc180004da471c22753626711c38e8";
+const projectId = process.env.PROJECT_ID;
+const projectSecretKey = process.env.PROJECT_SECRET_KEY;
 const auth = `Basic ${Buffer.from(`${projectId}:${projectSecretKey}`).toString(
   "base64"
 )}`;
 // const PORT = "http://localhost:8545"
-const subdomain = "https://sonderson-nft-marketplace.infura-ipfs.io";
-
-// const IPFS = require('ipfs');
-
-// const ipfs = await IPFS.create({
-//     config: {
-//         API: {
-//             HTTPHeaders: {
-//                 'Access-Control-Allow-Origin': ['http://localhost:3000'],
-//             },
-//         },
-//     },
-// });
+const subdomain = process.env.PROJECT_SUBDOMAIN;
+const clientUrl1 = process.env.CLIENT_URL_1;
+const clientUrl2 = process.env.CLIENT_URL_2;
+const clientUrl3 = process.env.CLIENT_URL_3;
 
 const client = ipfsHttpClient({
   host: "infura-ipfs.io",
@@ -39,7 +31,12 @@ const client = ipfsHttpClient({
   config: {
     API: {
       HTTPHeaders: {
-        "Access-Control-Allow-Origin": ["http://localhost:3000"],
+        "Access-Control-Allow-Origin": [
+          "http://localhost:3000",
+          clientUrl1,
+          clientUrl2,
+          clientUrl3,
+        ],
       },
     },
   },
@@ -56,6 +53,7 @@ const fetchContract = (signer) =>
   new ethers.Contract(NFTMarketplaceAddress, nftMarketplaceAbi, signer);
 
 // -- CONNECTING WITH SMART CONTRACT
+const Port = process.env.API_URL;
 const connectingWithSmartContract = async () => {
   try {
     //blockchain port number
@@ -64,7 +62,7 @@ const connectingWithSmartContract = async () => {
       rpc: {
         // Specify the URL for your local blockchain
         // For example, if running Ganache locally, use "http://localhost:8545"
-        1: "http://localhost:8545",
+        1: Port,
       },
     };
 
@@ -142,6 +140,8 @@ export const NftMarketplaceProvider = ({ children }) => {
   // -- METAMASK
   const connectMetamask = async (cb) => {
     try {
+      if (!window.ethereum)
+        throw new Error("common now... use an ethereum based browser!");
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
@@ -150,9 +150,9 @@ export const NftMarketplaceProvider = ({ children }) => {
       const library = new Web3Provider(window.ethereum, process.env.NETWORK);
       setWeb3Account(account);
       setWeb3Library(library);
-      cb(true)
+      cb(true);
     } catch (error) {
-      cb(null)
+      cb(null);
       toast.error(
         `OOps!!! looks like  an error occured while connecting to your metamask wallet...${error.message}`
       );
@@ -230,6 +230,8 @@ export const NftMarketplaceProvider = ({ children }) => {
   //-- COINBASE
   const connectCoinbase = async (cb) => {
     try {
+      if (!window.ethereum)
+        throw new Error("common now... use an ethereum based browser!");
       console.log("connect coinbase");
       // Initialize WalletLink
       const walletLink = new WalletLink({
@@ -238,7 +240,7 @@ export const NftMarketplaceProvider = ({ children }) => {
       });
       const provider = walletLink.makeWeb3Provider(
         `https://sepolia.infura.io/v3/${process.env.COINBASE_KEY}`,
-        11155111
+        process.env.CHAIN_ID
       );
       const accounts = await provider.request({
         method: "eth_requestAccounts",
@@ -249,9 +251,9 @@ export const NftMarketplaceProvider = ({ children }) => {
       setWalletlinkProvider(provider);
       setWeb3Library(library);
       setWeb3Account(account);
-      cb(true)
+      cb(true);
     } catch (error) {
-      cb(null)
+      cb(null);
       console.log(error);
       toast.error(
         `OOps!!! looks like  an error occured while connecting to your coinbase wallet...${error.message}`
@@ -350,7 +352,6 @@ export const NftMarketplaceProvider = ({ children }) => {
       //   // code block
       //   break;
       default:
-        
     }
   };
 
@@ -406,25 +407,26 @@ export const NftMarketplaceProvider = ({ children }) => {
     //add a toaster
 
     try {
-      if (!name || !description || !price || !image || !category)
-        throw new Error(
-          `OOps!!! please provide required data...name, description, price, image`
-        );
+      if (!name) throw new Error(`OOps!!! please provide required name`);
+      if (!description)
+        throw new Error(`OOps!!! please provide required description`);
+      if (!price) throw new Error(`OOps!!! please provide required price`);
+      if (!image) throw new Error(`OOps!!! please provide required image`);
       const data = JSON.stringify({
         name,
         description,
         image,
         price,
-        category,
+        category: category ? category : null,
       });
       const { path } = await client.add(data);
       console.log(path);
       const url = `https://infura-ipfs.io/ipfs/${path}`;
       const result = await createSale(url, price, false);
       console.log("result", result);
-      cb();
+      cb(true);
     } catch (error) {
-      cb();
+      cb(null);
       setError("OOps!!! looks like an error occured while creating NFT...");
       setOpenError(true);
       toast.error(
@@ -587,7 +589,6 @@ export const NftMarketplaceProvider = ({ children }) => {
       const data = await contract.getBalance();
       const bigNumber = ethers.BigNumber.from(data);
       const readableNumber = ethers.utils.formatUnits(bigNumber, "18");
-      console.log("balance", readableNumber);
       setContractBalance(readableNumber);
     } catch (error) {
       console.log(error);
