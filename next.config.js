@@ -8,6 +8,9 @@ const nextConfig = {
       "infura-ipfs.io",
       "res.cloudinary.com",
       "via.placeholder.com",
+      "source.unsplash.com",
+      "images.unsplash.com",
+      "plus.unsplash.com",
     ],
   },
   env: {

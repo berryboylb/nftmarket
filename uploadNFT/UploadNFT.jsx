@@ -14,7 +14,32 @@ import { Button } from "../components/componentsindex";
 import { DropZone } from "./uploadNFTIndex";
 import Loader from "../components/Loader";
 
-const categoryArr = ["nfts", "arts", "music", "sports", "phography"];
+ export const categoryArray = [
+   {
+     image: images.nft_image_1,
+     category: "Sports",
+   },
+   {
+     image: images.nft_image_2,
+     category: "Arts",
+   },
+   {
+     image: images.nft_image_3,
+     category: "Music",
+   },
+   {
+     image: images.nft_image_1,
+     category: "Digital",
+   },
+   {
+     image: images.nft_image_3,
+     category: "Time",
+   },
+   {
+     image: images.nft_image_2,
+     category: "Photography",
+   },
+ ];
 const UploadNFT = ({ uploadToIpfs, createNFT }) => {
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState("");
@@ -30,32 +55,7 @@ const UploadNFT = ({ uploadToIpfs, createNFT }) => {
 
   const router = useRouter();
 
-  const categoryArray = [
-    {
-      image: images.nft_image_1,
-      category: "Sports",
-    },
-    {
-      image: images.nft_image_2,
-      category: "Arts",
-    },
-    {
-      image: images.nft_image_3,
-      category: "Music",
-    },
-    {
-      image: images.nft_image_1,
-      category: "Digital",
-    },
-    {
-      image: images.nft_image_3,
-      category: "Time",
-    },
-    {
-      image: images.nft_image_2,
-      category: "Photography",
-    },
-  ];
+ 
   const uploadImage = (image) => {
     setImage(image);
   };

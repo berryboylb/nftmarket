@@ -37,8 +37,6 @@ const Brand = () => {
                     <Image 
                       src={images.earn}
                       alt="Brand Logo"
-                      width={600}
-                      height={400}  
                     />
                 </div>
             </div>

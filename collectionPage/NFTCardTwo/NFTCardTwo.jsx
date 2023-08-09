@@ -1,17 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { BsImage } from "react-icons/bs";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { MdVerified, MdTimer } from "react-icons/md";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 // INTERNAL IMPORT
 import Style from "./NFTCardTwo.module.css";
 import { LikeProfile } from "../../components/componentsindex";
 
 const NFTCardTwo = ({ NFTData }) => {
+  const router = useRouter();
+  const { query } = router;
+  const filter = query.category;
   const [like, setLike] = useState(false);
   const [likeInc, setLikeInc] = useState(21);
+
+  const scrollToComponentRef = useRef(null);
+
+  useEffect(() => {
+    if (filter)
+      if (scrollToComponentRef.current) {
+        scrollToComponentRef.current.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      };
+  }, []);
 
   const likeNFT = () => {
     if (!like) {
@@ -26,7 +42,7 @@ const NFTCardTwo = ({ NFTData }) => {
   return (
     <>
       {NFTData && NFTData.length > 0 ? (
-        <div className={Style.nftcardTwo}>
+        <div ref={scrollToComponentRef} className={Style.nftcardTwo}>
           {NFTData.map((el, i) => (
             <Link href={{ pathname: "/nft-Details", query: el }} key={i + 1}>
               <div className={Style.nftcardTwo_box} key={el.tokenId}>

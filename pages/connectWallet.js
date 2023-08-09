@@ -7,6 +7,7 @@ import { Button } from "../components/componentsindex";
 import images from "../img";
 import { NFTMarketplaceContext } from "../Context/NFTMarketplaceContext";
 import { Loader } from "../components/componentsindex";
+import toast from "react-hot-toast";
 
 const connectWallet = () => {
   const [activeBtn, setActiveBtn] = useState(1);
@@ -24,6 +25,7 @@ const connectWallet = () => {
     connectTrustWallet,
     disconnectWalletconnect,
     disconnectCoinbase,
+    currentAccount,
   } = useContext(NFTMarketplaceContext);
 
   useEffect(() => {
@@ -46,6 +48,12 @@ const connectWallet = () => {
             <div
               className={Style.connectwallet_box_provider_item}
               onClick={async () => {
+                if (currentAccount) {
+                  toast.error(
+                    `Disconnect ${walletName} wallet before connecting to another`
+                  );
+                  return;
+                }
                 changeLoader();
                 await connectMetamask((val) => {
                   if (val) {
@@ -80,6 +88,12 @@ const connectWallet = () => {
             <div
               className={Style.connectwallet_box_provider_item}
               onClick={async () => {
+                if (currentAccount) {
+                  toast.error(
+                    `Disconnect ${walletName} wallet before connecting to another`
+                  );
+                  return;
+                }
                 changeLoader();
                 await connectCoinbase(() => {
                   localStorage.setItem(walletProvider, wallets.coinBase);

@@ -54,14 +54,14 @@ const NFTCard = ({ NFTdata }) => {
                       className={Style.nftcard_box_update_left_like_icon}
                     />
                   )}
-                  {""} 22
+                  {""} 0
                 </div>
               </div>
 
               <div className={Style.nftcard_box_update_right}>
                 <div className={Style.nftcard_box_update_right_info}>
                   <small>Time Left</small>
-                  <p>3h : 15m : 20s</p>
+                  <p>0h : 0m : 00s</p>
                 </div>
               </div>
             </div>
@@ -76,7 +76,7 @@ const NFTCard = ({ NFTdata }) => {
                       <p>{el.price}</p>
                     </div>
                     <div className={Style.nftcard_box_update_details_price_box_stock}>
-                      <small>61 in stock</small>
+                      <small>1 in stock</small>
                     </div>
                   </div>
                 </div>

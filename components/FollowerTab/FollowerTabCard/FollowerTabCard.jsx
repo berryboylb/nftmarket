@@ -1,19 +1,31 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { MdVerified } from 'react-icons/md';
-import { TiTick } from 'react-icons/ti';
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { MdVerified } from "react-icons/md";
+import { TiTick } from "react-icons/ti";
 
 // INTERNAL IMPORT
 import Style from "./FollowerTabCard.module.css";
-import images from "../../../img"
+import images from "../../../img";
+import { getRandomImage } from "../../../TopCreator/TopCreator";
 
 const FollowerTabCard = ({ i, el }) => {
   const [following, setFollowing] = useState(false);
+  const [fallback, setFallback] = useState(
+    "https://via.placeholder.com/500x500"
+  );
+  useEffect(() => {
+    const init = async () => {
+      const url = await getRandomImage();
+      if (url) setFallback(url);
+    };
+    init();
+  }, []);
+
 
   const followMe = () => {
-    if (!following){
+    if (!following) {
       setFollowing(true);
-    } else{
+    } else {
       setFollowing(false);
     }
   };
@@ -30,7 +42,7 @@ const FollowerTabCard = ({ i, el }) => {
         <div className={Style.FollowerTabCard_box_img}>
           <Image
             className={Style.FollowerTabCard_box_img_img}
-            src={el.background || "https://via.placeholder.com/500x500"}
+            src={el.background || fallback}
             alt="Profile background"
             width={3000}
             height={2000}

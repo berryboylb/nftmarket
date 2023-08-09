@@ -34,7 +34,7 @@ const HeroSection = () => {
         </div>
 
         <div className={Style.herosection_box_right}>
-          <Image src={images.hero} alt='hero' width={550} height={550} priority={true} />
+          <Image src={images.hero} alt='hero'  priority={true} />
         </div>
       </div>
     </div>

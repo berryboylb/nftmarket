@@ -58,6 +58,7 @@
     width: 80%;
     margin: 0 auto;
     display: flex;
+    flex-wrap: wrap;
     padding: 2rem 0;
     border-top: 1px solid var(--icons-color);
 }
@@ -101,9 +102,7 @@
     }
 
     .filter_box_items {
-        width: 90%;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
     }
 
     .filter_box_right_box {
@@ -112,6 +111,7 @@
         justify-content: center;
         gap: 4rem;
         padding-inline: 2rem;
+        width: 100%;
     }
 
     .filter_box_items_box_item {

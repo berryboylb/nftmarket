@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useRouter } from "next/router";
 
 // INTERNAL IMPORT
 import Style from "../styles/search.module.css";
@@ -14,11 +15,19 @@ import images from "../img";
 import { NFTMarketplaceContext } from '../Context/NFTMarketplaceContext';
 
 const search = () => {
-  const { fetchNFTs, currentAccount, filteredArr, withdraw } = useContext(NFTMarketplaceContext);
+  const { fetchNFTs, currentAccount, filteredArr, withdraw, filterNft } =
+    useContext(NFTMarketplaceContext);
+  const router = useRouter();
+  const { query } = router;
+  const filter = query.category;
   const [nfts, setNfts] = useState([]);
   const [nftsCopy, setNftscopy] = useState([]);
   const [loading, setLoading] = useState(false);
   const changeLoader = () => setLoading(hartman => !hartman);
+
+   useEffect(() => {
+     if (filter) filterNft(filter, () => null);
+   }, []);
 
   useEffect(() => {
     const init = async () => {

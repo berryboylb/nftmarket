@@ -107,11 +107,31 @@ export const NftMarketplaceProvider = ({ children }) => {
   const [web3Account, setWeb3Account] = React.useState();
   const [walletlinkProvider, setWalletlinkProvider] = React.useState();
   const [walletConnectProvider, setWalletConnectProvider] = React.useState();
-  const [owner, setOwner] = React.useState("");
+  const [owner, setOwner] = React.useState(null);
   const [contractBalance, setContractBalance] = React.useState(0);
 
   const [listingPrice, setListingPrice] = useState(0);
   const router = useRouter();
+
+  const handleAccountChange = (...args) => {
+    const accounts = args[0];
+    if (accounts.length === 0) {
+      // console.log("Please connect to metamask");
+    } else if (accounts[0] !== currentAccount) {
+      setCurrentAccount(accounts[0]);
+    }
+  };
+
+  useEffect(() => {
+    if (window.ethereum) {
+      window.ethereum.on("accountsChanged", handleAccountChange);
+    }
+    return () => {
+      if (window.ethereum) {
+        window.ethereum.removeListener("accountsChanged", handleAccountChange);
+      }
+    };
+  });
 
   // disconnectWallet
   const disconnectWallet = () => {
@@ -464,7 +484,7 @@ export const NftMarketplaceProvider = ({ children }) => {
           await contract.getListedForTokenId(id);
         const itemsSold = await contract.getItemsSold();
         if (itemsSold.toNumber() === 0)
-          throw new Error("Marketplace is currently Unavaliable");
+          throw new Error("Marketplace is currently Unavaliable");g
         if (owner.toLowerCase() !== currentAccount.toLowerCase())
           throw new Error("This nft does not belong to you");
         const transaction = await contract.resellToken(id, priceInWei, {
@@ -793,24 +813,29 @@ export const NftMarketplaceProvider = ({ children }) => {
   // BUY NFTS FUNCTION
   const buyNFT = async (tokenId, cb) => {
     try {
-      console.log("tokenId:", tokenId);
       const contract = await connectingWithSmartContract();
-
-      const selectedNFT = nfts.find(
-        (nft) => nft.tokenId && nft.tokenId.toString() === tokenId.toString()
-      );
-      console.log("selectedNFT:", selectedNFT);
-
-      if (!selectedNFT || !selectedNFT.price)
-        throw new Error("Invalid NFT object or price is undefined");
 
       // const priceInWei = ethers.utils.parseUnits(selectedNFT.price.toString(), "ether");
       // console.log("priceInWei:", priceInWei.toString());
 
       const gasLimit = 6000000;
-      console.log("Gas Price:", gasLimit);
 
       const item = await contract.getListedForTokenId(tokenId);
+      console.log(item);
+
+      if (ethers.constants.AddressZero === ethers.utils.getAddress(item?.owner))
+        throw new Error("Invalid NFT object or owner is not defined");
+
+      if (
+        ethers.constants.AddressZero === ethers.utils.getAddress(item?.seller)
+      )
+        throw new Error("Invalid NFT object or seller is undefined");
+
+      const bigNumber = ethers.BigNumber.from(item?.price)
+      const isNotZero = !bigNumber.eq(ethers.constants.Zero);
+
+      if (!isNotZero)
+        throw new Error("Invalid NFT object or price is undefined");
 
       console.log(item?.price.toString());
 

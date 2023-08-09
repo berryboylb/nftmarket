@@ -1,12 +1,15 @@
 import React from "react";
 import Image from "next/image";
 import { BsCircleFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 
 // INTERNAL IMPORT
 import Style from "./Category.module.css";
 import images from "../../img";
+import {categoryArray  } from "../../uploadNFT/UploadNFT"
 
 const Category = () => {
+  const router = useRouter();
   const CategoryArray = [
     images.creatorbackground10,
     images.creatorbackground11,
@@ -18,10 +21,10 @@ const Category = () => {
   return (
     <div className={Style.box_category}>
       <div className={Style.category}>
-        {CategoryArray.map((el, i) => (
-          <div className={Style.category_box} key={i + 1}>
+        {categoryArray.map((el, i) => (
+          <div className={Style.category_box} key={i + 1} onClick={() => router.push(`/search?category=${el.category}`)}>
             <Image
-              src={el}
+              src={el.image}
               className={Style.category_box_img}
               alt="Bgimage"
               // width={350}
@@ -32,12 +35,10 @@ const Category = () => {
                 <BsCircleFill />
               </span>
               <div className={Style.category_box_title_info}>
-                <h4>Entertainment</h4>
-                <small>1995 NFTs</small>
+                <h4>{el.category}</h4>
+                <small>Cicryp NFTs</small>
               </div>
             </div>
-            
-           
           </div>
         ))}
       </div>

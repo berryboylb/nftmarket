@@ -9,6 +9,7 @@ import {
 import Style from "./FollowerTab.module.css";
 import FollowerTabCard from "./FollowerTabCard/FollowerTabCard";
 import images from "../../img";
+import { getRandomImage } from "../../TopCreator/TopCreator";
 
 const FollowerTab = ({ TopCreator }) => {
   const CardArray = [

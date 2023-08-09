@@ -13,27 +13,10 @@ const nftDetails = () => {
   const { currentAccount } = useContext(NFTMarketplaceContext);
 
 
-  // const [nft, setNft] = useState({
-  //   image: "",
-  //   tokenId: "",
-  //   name: "",
-  //   owner: "",
-  //   price: "",
-  //   seller: "",
-  // });
-
   const [nft, setNft] = useState();
 
   const router = useRouter();
 
-  useEffect(() => {
-    console.log("Current Account:", currentAccount);
-    // Perform any actions or logic based on the currentAccount value
-  }, [currentAccount]);
-
-  useEffect(() => {
-    console.log("nft:", nft);
-  }, [nft])
 
   useEffect(() => {
     if (!router.isReady) return;

@@ -15,7 +15,6 @@ const searchBar = ({ onHandleSearch, onClearSearch }) => {
 
   useEffect(() => {
     const timer = setTimeout(() => setSearch(searchItem), 1000);
-
     return () => clearTimeout(timer);
   }, [searchItem]);
 
