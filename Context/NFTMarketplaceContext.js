@@ -107,7 +107,7 @@ export const NftMarketplaceProvider = ({ children }) => {
   const [web3Account, setWeb3Account] = React.useState();
   const [walletlinkProvider, setWalletlinkProvider] = React.useState();
   const [walletConnectProvider, setWalletConnectProvider] = React.useState();
-  const [owner, setOwner] = React.useState(null);
+  const [owner, setOwner] = React.useState("owner");
   const [contractBalance, setContractBalance] = React.useState(0);
 
   const [listingPrice, setListingPrice] = useState(0);
